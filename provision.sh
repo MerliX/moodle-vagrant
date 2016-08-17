@@ -1,7 +1,9 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 echo "Running operating system updates..."
+add-apt-repository -y ppa:ondrej/php5-5.6
 apt-get update
+apt-get install -y python-software-properties
 apt-get -y upgrade
 echo "Installing required packages..."
 apt-get -y install \
@@ -20,7 +22,8 @@ apt-get -y install \
 	php5-mcrypt \
 	php-pear \
 	php5-xsl \
-	git
+	git \
+	avahi-daemon
 echo "Configuring Apache..."
 rm -rf /etc/apache2/sites-enabled
 rm -rf /etc/apache2/sites-available
@@ -76,10 +79,13 @@ mkdir -p /var/www/moodle/html
 mkdir -p /var/www/moodle/data
 cd /var/www/moodle/html
 echo "Retrieving latest stable Moodle version..."
-git clone https://github.com/moodle/moodle.git .
-LATEST_VERSION=$(git tag | awk '{print $1}' | grep -v '}$' | grep -v 'beta' | grep -v 'rc' | sed 's/^v//' | sort -t. -k 1,1n -k 2,2n -k 3,3n | tail -n1)
-echo "Checking out Moodle version ${LATEST_VERSION}..."
+git clone https://github.com/moodle/moodle.git
+cd moodle
+LATEST_VERSION="3.1.1"
 git checkout "tags/v${LATEST_VERSION}" -b "v${LATEST_VERSION}"
+cp -r * ../
+cd ..
+echo "Checking out Moodle version ${LATEST_VERSION}..."
 echo "Installing Moodle..."
 php admin/cli/install.php \
 	--lang="en" \
