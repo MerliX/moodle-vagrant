@@ -82,9 +82,10 @@ echo "Retrieving latest stable Moodle version..."
 git clone https://github.com/moodle/moodle.git
 cd moodle
 LATEST_VERSION="3.1.1"
-git checkout "tags/v${LATEST_VERSION}" -b "v${LATEST_VERSION}"
-cp -r * ../
+git checkout "v${LATEST_VERSION}"
+mv -r * ../
 cd ..
+rm moodle
 echo "Checking out Moodle version ${LATEST_VERSION}..."
 echo "Installing Moodle..."
 php admin/cli/install.php \

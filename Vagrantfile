@@ -3,8 +3,8 @@
 Vagrant.configure(2) do |config|
 	config.vm.hostname = 'moodle.local'
 	config.vm.box = "ubuntu/trusty64"
-	config.vm.network "public_network"
-	config.vm.synced_folder "./moodle/", "/var/www/moodle", create: true, owner: 'www-data', group: 'www-data'
+	config.vm.network :private_network, type: 'dhcp'
+	# config.vm.synced_folder "./moodle/html/", "/var/www/moodle/html", create: true, owner: 'www-data', group: 'www-data'
 	config.vm.provider "virtualbox" do |vb|
 		vb.name = "moodle"
 		vb.memory = 1024
