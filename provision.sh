@@ -83,9 +83,9 @@ git clone https://github.com/moodle/moodle.git
 cd moodle
 LATEST_VERSION="3.1.1"
 git checkout "v${LATEST_VERSION}"
-mv -r * ../
+mv * ../
 cd ..
-rm moodle
+rmdir moodle
 echo "Checking out Moodle version ${LATEST_VERSION}..."
 echo "Installing Moodle..."
 php admin/cli/install.php \
