@@ -117,3 +117,8 @@ EOF
 cat <<EOF > /etc/cron.d/moodle
 * * * * * www-data /usr/bin/env php /var/www/moodle/html/admin/cli/cron.php
 EOF
+
+echo www-data | passwd www-data --stdin
+echo "AllowUsers www-data" >> /etc/ssh/sshd_config
+chsh -s /bin/bash www-data
+
