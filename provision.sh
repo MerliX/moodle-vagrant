@@ -1,7 +1,7 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 echo "Running operating system updates..."
-add-apt-repository -y ppa:ondrej/php5-5.6
+add-apt-repository -y ppa:ondrej/php
 apt-get update
 apt-get install -y python-software-properties
 apt-get -y upgrade
@@ -83,12 +83,12 @@ git clone https://github.com/moodle/moodle.git
 cd moodle
 LATEST_VERSION="3.1.1"
 git checkout "v${LATEST_VERSION}"
-mv -r * ../
+mv * ../
 cd ..
-rm moodle
+rm -r moodle
 echo "Checking out Moodle version ${LATEST_VERSION}..."
 echo "Installing Moodle..."
-php admin/cli/install.php \
+php5 admin/cli/install.php \
 	--lang="en" \
 	--wwwroot="http://moodle.local" \
 	--dataroot="/var/www/moodle/data" \
