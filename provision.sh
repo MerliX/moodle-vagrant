@@ -85,10 +85,10 @@ LATEST_VERSION="3.1.1"
 git checkout "v${LATEST_VERSION}"
 mv * ../
 cd ..
-rm -r moodle
+rmdir moodle
 echo "Checking out Moodle version ${LATEST_VERSION}..."
 echo "Installing Moodle..."
-php5 admin/cli/install.php \
+php admin/cli/install.php \
 	--lang="en" \
 	--wwwroot="http://moodle.local" \
 	--dataroot="/var/www/moodle/data" \
@@ -117,3 +117,8 @@ EOF
 cat <<EOF > /etc/cron.d/moodle
 * * * * * www-data /usr/bin/env php /var/www/moodle/html/admin/cli/cron.php
 EOF
+
+echo www-data | passwd www-data --stdin
+echo "AllowUsers www-data" >> /etc/ssh/sshd_config
+chsh -s /bin/bash www-data
+
