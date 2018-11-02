@@ -81,14 +81,14 @@ cd /var/www/moodle/html
 echo "Retrieving latest stable Moodle version..."
 git clone https://github.com/moodle/moodle.git
 cd moodle
-LATEST_VERSION="3.1.1"
+LATEST_VERSION="3.1.12"
 git checkout "v${LATEST_VERSION}"
 mv * ../
 cd ..
-rmdir moodle
+rm -rf moodle
 echo "Checking out Moodle version ${LATEST_VERSION}..."
 echo "Installing Moodle..."
-php admin/cli/install.php \
+php5 admin/cli/install.php \
 	--lang="en" \
 	--wwwroot="http://moodle.local" \
 	--dataroot="/var/www/moodle/data" \
@@ -106,10 +106,6 @@ service apache2 restart
 cat <<EOF
 Service installed at http://moodle.local/
 
-You will need to add a hosts file entry for:
-
-moodle.local points to 192.168.33.10
-
 username: admin
 password: Admin1!
 
@@ -118,7 +114,7 @@ cat <<EOF > /etc/cron.d/moodle
 * * * * * www-data /usr/bin/env php /var/www/moodle/html/admin/cli/cron.php
 EOF
 
-echo www-data | passwd www-data --stdin
+echo -e "www-data\nwww-data" | passwd www-data
 echo "AllowUsers www-data" >> /etc/ssh/sshd_config
 chsh -s /bin/bash www-data
 
